@@ -72,7 +72,9 @@ class Wp_Video_Preventer_Run{
 	
 		add_action( 'plugin_action_links_' . WPVIDEOPRE_PLUGIN_BASE, array( $this, 'add_plugin_action_link' ), 20 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_backend_scripts_and_styles' ), 20 );
-	
+		// Add this code to your theme's functions.php file or a custom plugin
+
+		add_action('admin_menu', array( $this, 'wpvideopre__menu'));
 	}
 
 	/**
@@ -117,4 +119,22 @@ class Wp_Video_Preventer_Run{
 		));
 	}
 
+
+	public  function wpvideopre__menu() {
+		// Add a top-level menu page
+		add_menu_page(
+			'Video Preventer',        // Page title
+			'Video Preventer',           // Menu title
+			'manage_options',        // Capability
+			'wpvideopre',        // Menu slug
+			array($this,'wpvideopre_page'),   // Callback function to display the page content
+			'dashicons-admin-generic', // Icon URL (dashicons or custom URL)
+			6                       // Position (optional)
+		);
+ 		 
+	}
+
+	public function wpvideopre_page(){
+		include 'view/main.php';
+	}
 }
