@@ -35,6 +35,13 @@
 
                       
 
+                            <template v-slot:top-right>
+                               
+                                <q-btn borderless dense color="primary" label="Add Video +" @click="dialog = true">
+                               
+                                </q-btn>
+
+                            </template>
 
                         </q-table>
 
@@ -42,7 +49,23 @@
                     </q-page>
                 </q-page-container>
             </q-layout>
+<q-dialog v-model="dialog">
+<q-card style="min-width: 350px">
+        <q-card-section class="row items-center q-pb-none">
+          <div class="text-h6">New Video</div> <q-space  ></q-space>
+          <q-btn icon="close" flat round dense v-close-popup  ></q-btn>
 
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+            <q-input dense labe="Video Url" v-model="video.url" borderless></q-input>
+         </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn icon="check"   label="Save" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+</q-dialog>
         </div>
 
     </div>
@@ -75,7 +98,10 @@ const app = Vue.createApp({
         const $q = useQuasar()
         const filterData = ref({})
         const data = ref([])
-       
+       const dialog = ref(false)
+            const video  =ref({})
+
+
         onMounted(async () => {
             await getVideos()
            
@@ -99,7 +125,7 @@ const app = Vue.createApp({
         return {
             
           
-         
+            video,
     
             cols,
             filter: ref(''),
@@ -107,7 +133,8 @@ const app = Vue.createApp({
             data,
            
             filterData,
-            date
+            date,
+            dialog
         }
     }
 })
