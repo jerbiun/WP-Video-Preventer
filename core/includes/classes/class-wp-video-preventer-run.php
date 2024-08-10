@@ -75,6 +75,9 @@ class Wp_Video_Preventer_Run{
 		// Add this code to your theme's functions.php file or a custom plugin
 
 		add_action('admin_menu', array( $this, 'wpvideopre__menu'));
+
+		add_action('wp_ajax_wpvideopre_get_videos', [$this, 'wpvideopre_get_videos']);
+        add_action('wp_ajax_nopriv_wpvideopre_get_videos', [$this, 'wpvideopre_get_videos']);
 	}
 
 	/**
@@ -135,6 +138,16 @@ class Wp_Video_Preventer_Run{
 	}
 
 	public function wpvideopre_page(){
-		include 'view/main.php';
+		include WPVIDEOPRE_PLUGIN_DIR.'core/includes/view/main.php';
+	}
+
+
+	public function wpvideopre_get_videos(){
+
+
+		wp_send_json([
+            'data' => [],
+            'request' => $_REQUEST
+        ]);
 	}
 }
