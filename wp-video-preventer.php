@@ -78,4 +78,32 @@ function WPVIDEOPRE() {
 	return Wp_Video_Preventer::instance();
 }
 
+register_activation_hook(__FILE__, 'wpvideopre_activate');
+
+function wpvideopre_activate() {
+    global $wpdb;
+
+    // Define table name with WordPress prefix
+    $table_name = $wpdb->prefix . 'wpvideopre_videos';
+
+    // SQL to create table
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        name varchar(255)   NULL,
+        url varchar(255)  NOT NULL,
+		url_id varchar(255)   NULL,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+
+    // Include the WordPress upgrade file to use dbDelta function
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+    // Create the table
+    dbDelta($sql);
+
+ 
+}
+
 WPVIDEOPRE();
