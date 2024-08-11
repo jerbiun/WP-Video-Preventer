@@ -33,16 +33,17 @@
                             :filter="filter">
 
                             <template v-slot:body-cell-video="props">
-                                                <q-td :props="props">
-                                                    <div >
-                                                  
-                                                        <q-video
-      :src="props.row.url"
-    ></q-video>
+                                <q-td :props="props">
+                                    <div >
 
-                                                    </div>
-                                                </q-td>
-                                            </template>
+                                        <q-video
+                                            :ratio="16/9"
+                                            :src="props.row.url"
+                                            ></q-video>
+
+                                    </div>
+                                </q-td>
+                            </template>
 
                             <template v-slot:top-right>
 
@@ -54,34 +55,34 @@
 
                         </q-table>
                         <q-dialog v-model="dialog">
-             
-                    <q-card style="min-width: 350px">
-                    <q-form
-                    @submit.prevent="onSubmit"
-                    ref="myForm"
-                    class="q-gutter-md">
-                        <q-card-section class="row items-center q-pb-none">
-                            <div class="text-h6">New Video</div> <q-space></q-space>
-                            <q-btn icon="close" flat round dense v-close-popup></q-btn>
 
-                        </q-card-section>
+                            <q-card style="min-width: 350px">
+                                <q-form
+                                    @submit.prevent="onSubmit"
+                                    ref="myForm"
+                                    class="q-gutter-md">
+                                    <q-card-section class="row items-center q-pb-none">
+                                        <div class="text-h6">New Video</div> <q-space></q-space>
+                                        <q-btn icon="close" flat round dense v-close-popup></q-btn>
 
-                        <q-card-section class="q-pt-none">
-                            <q-input dense labe="Video Url" v-model="video.url" borderless :rules="[val => !!val || 'Field is required']"></q-input>
-                        </q-card-section>
+                                    </q-card-section>
 
-                        <q-card-actions align="right">
-                            <q-btn borderless icon="check" label="Save" color="primary" type="submit"></q-btn>
-                        </q-card-actions>
-                        </q-form>
-                    </q-card>
-          
-            </q-dialog>
+                                    <q-card-section class="q-pt-none">
+                                        <q-input dense labe="Video Url" v-model="video.url" borderless :rules="[val => !!val || 'Field is required']"></q-input>
+                                    </q-card-section>
+
+                                    <q-card-actions align="right">
+                                        <q-btn borderless icon="check" label="Save" color="primary" type="submit"></q-btn>
+                                    </q-card-actions>
+                                </q-form>
+                            </q-card>
+
+                        </q-dialog>
 
                     </q-page>
                 </q-page-container>
             </q-layout>
-         
+
         </div>
 
     </div>
@@ -136,7 +137,6 @@
                         align: 'left',
                         sortable: true
                     },
-
                 ])
                 const $q = useQuasar()
                 const filterData = ref({})
@@ -157,7 +157,7 @@
                         action: "wpvideopre_get_videos"
                     }
 
-                    ajaxConfig.success = function(resp) {
+                    ajaxConfig.success = function (resp) {
                         console.log(resp)
 
                         data.value = resp.data
@@ -173,10 +173,11 @@
                         video: video.value
                     }
 
-                    ajaxConfig.success = function(resp) {
+                    ajaxConfig.success = async function (resp) {
                         console.log(resp)
 
-                   
+                        await getVideos()
+                        dialog.value =false
                     }
 
                     await jQuery.ajax(ajaxConfig)
