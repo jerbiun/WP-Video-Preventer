@@ -1,33 +1,34 @@
-<!-- wp:template-part {"slug":"header","area":"header","tagName":"header"} /-->
+<?php 
 
-<!-- wp:group {"tagName":"main","layout":{"type":"default"}} -->
-<main class="wp-block-group">
-	<!-- wp:group {"style":{"spacing":{"padding":{"top":"0vh","bottom":"6vh"}}},"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group" style="padding-top:0vh;padding-bottom:6vh">
-		<!-- wp:post-featured-image {"align":"wide"} /-->
-	</div>
-	<!-- /wp:group -->
+ global $wpdb;
 
-	<!-- wp:group {"layout":{"type":"constrained"}} -->
-	<div class="wp-block-group">
-		<!-- wp:columns {"align":"wide","style":{"spacing":{"blockGap":{"top":"1rem","left":"1rem"}}}} -->
-		<div class="wp-block-columns alignwide">
-			<!-- wp:column -->
-			<div class="wp-block-column">
-				<!-- wp:post-title {"level":1,"fontSize":"x-large"} /-->
-			</div>
-			<!-- /wp:column -->
+        // Define your table name with the $wpdb->prefix to ensure it respects the WordPress prefix
+        $table_name = $wpdb->prefix . 'wpvideopre_videos';
+ 
+        // Perform the query to get all rows from the table
+        $results = $wpdb->get_results("SELECT * FROM $table_name");
+?>
 
-			<!-- wp:column -->
-			<div class="wp-block-column">
-				<!-- wp:post-content {"lock":{"move":false,"remove":true},"layout":{"type":"constrained"}} /-->
-			</div>
-			<!-- /wp:column -->
-		</div>
-		<!-- /wp:columns -->
-	</div>
-	<!-- /wp:group -->
-</main>
-<!-- /wp:group -->
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+<?php if ( function_exists( 'wp_body_open' ) ) { wp_body_open(); } ?>
 
-<!-- wp:template-part {"slug":"footer","area":"footer","tagName":"footer"} /-->
+<div class="custom-page-content">
+  
+</div>
+
+<?php
+if ( function_exists( 'block_template_part' ) ) {
+    block_template_part( 'footer' );
+} else {
+    get_footer();
+}
+?>
+</body>
+</html>
